@@ -9,7 +9,7 @@ public interface UserService {
 	long save(User user);
 	User get(long id);
 	List<User> list();
-	void update(long id, User user);
+	boolean updatePassword(String username, String password);
 	boolean login(String username , String password);
 	  
 }

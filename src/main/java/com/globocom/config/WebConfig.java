@@ -9,5 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.globocom.controller" })
 public class WebConfig extends WebMvcConfigurerAdapter {
+	
+	
 
 }
