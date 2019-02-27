@@ -10,7 +10,7 @@ import com.globocom.dao.UserDao;
 import com.globocom.model.User;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class UserServiceImpl implements UserService{
 
 	@Autowired
@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void update(long id, User user) {
+	public boolean updatePassword(String username, String password) {
+			return userdao.updatePassword(username, password);
 		// TODO Auto-generated method stub
 		
 	}

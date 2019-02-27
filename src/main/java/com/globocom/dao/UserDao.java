@@ -12,9 +12,11 @@ public interface UserDao {
 
 	List<User> getAllUsers();
 
-	void updateUser(long id, User book);
+//	void updateUser(long id, User book);
 	
 	boolean submitLogin(String username, String password);
+	
+	boolean updatePassword(String username, String password);
 
 	 
 }
