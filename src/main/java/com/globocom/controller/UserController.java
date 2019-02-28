@@ -37,10 +37,10 @@ public class UserController {
 	   public ResponseEntity<?> save(@RequestBody User user) {
 			Date parsedDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			user.setAddtime(formatter.format(parsedDate));
-			user.setUpdatetime(formatter.format(parsedDate));
-			user.setPassword("5fdsf465sd465sdf");
-			user.setStatus("1");
+			user.setUl_addedon(formatter.format(parsedDate));
+			user.setUl_updatedon(formatter.format(parsedDate));
+			user.setUl_password("5fdsf465sd465sdf");
+			user.setUl_status("1");
 			long id = userservice.save(user);
 			return ResponseEntity.ok().body("New User has been Registered with ID:" + id);
 	  }
@@ -61,9 +61,9 @@ public class UserController {
 	public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response ,@RequestBody User user) {
 		Integer status = 403;
 		String message = "";
-		
-		String username = user.getUsername();
-		String password = user.getPassword();
+
+		String username = user.getUl_username();
+		String password = user.getUl_password();
 		try {
 		if (username == null || password == null || username.length() == 0 || password.length() == 0) {
 			message = "Enter User ID and Password";
@@ -93,8 +93,8 @@ public class UserController {
 	
 	@PostMapping("/password")
 	public ResponseEntity<?> setPassword(HttpServletRequest request, HttpServletResponse response ,@RequestBody User user) {
-		String username = user.getUsername();
-		String password = user.getPassword();
+		String username = user.getUl_username();
+		String password = user.getUl_password();
 		
 		System.out.println(username +">>>>>>>>" + password);
 		try {

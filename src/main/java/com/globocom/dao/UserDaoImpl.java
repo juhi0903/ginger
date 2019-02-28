@@ -25,7 +25,7 @@ public  class UserDaoImpl implements UserDao {
 	@Override
 	public long saveUser(User user) {
 		sessionFactory.getCurrentSession().save(user);
-	    return user.getId();
+	    return user.getUl_id();
 	}
 
 	@Override
@@ -41,7 +41,8 @@ public  class UserDaoImpl implements UserDao {
 	     Root<User> root = cq.from(User.class);
 	     cq.select(root);
 	     Query<User> query = session.createQuery(cq);
-	      return query.getResultList();
+	     List<User> result = query.getResultList();
+	     return result;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,8 +54,8 @@ public  class UserDaoImpl implements UserDao {
 	    CriteriaUpdate<User> user = cb.createCriteriaUpdate(User.class);
 	    Root<User> root = user.from(User.class);
 	    
-	    user.set("password", password);
-	    user.where(cb.equal(root.get("username"), username));
+	    user.set("ul_password", password);
+	    user.where(cb.equal(root.get("ul_username"), username));
 	    
 	    
 	    session.createQuery(user).executeUpdate();
@@ -65,7 +66,7 @@ public  class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean submitLogin(String username, String password) {
-		List<User> user = sessionFactory.getCurrentSession().createNativeQuery("select * from users where username = ?1 and password = ?2")
+		List<User> user = sessionFactory.getCurrentSession().createNativeQuery("select * from users_login where ul_username = ?1 and ul_password = ?2")
 		.setParameter(1,username).setParameter(2, password).list();
 		
 		if(user.size() == 1)
