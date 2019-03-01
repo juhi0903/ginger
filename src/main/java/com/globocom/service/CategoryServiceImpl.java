@@ -23,8 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> getCategory(int contentid) {
-		return categorydao.getCategory(contentid);
+	public List<Category> getCategoryList(int contentid) {
+		return categorydao.getCategoryList(contentid);
 	}
 
 	@Override
@@ -33,8 +33,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean updateCategory(int id, String name) {
-		return categorydao.updateCategory(id, name);
+	public boolean updateCategory(Category category) {
+		return categorydao.updateCategory(category);
+	}
+
+	@Override
+	public List<Category> getCategory(int id) {
+		return categorydao.getCategory(id);
 	}
 
 }

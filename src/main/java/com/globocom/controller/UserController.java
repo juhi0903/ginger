@@ -27,7 +27,6 @@ import com.globocom.service.UserService;
 
 //@CrossOrigin(origins = {"http://localhost:4200"}, maxAge = 4800, allowCredentials = "false")
 @RestController
-
 public class UserController {
 
 	@Autowired
@@ -96,11 +95,10 @@ public class UserController {
 		String username = user.getUl_username();
 		String password = user.getUl_password();
 		
-		System.out.println(username +">>>>>>>>" + password);
 		try {
 			boolean check = userservice.updatePassword(username,password);
 			if(check == true) {
-				return ResponseEntity.ok().body("Password updated");
+				return ResponseEntity.status(200).body("Password Updated Successfully");
 			}
 		}catch (GenericJDBCException exception) {
 	

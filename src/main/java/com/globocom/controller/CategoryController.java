@@ -29,17 +29,16 @@ public class CategoryController {
 	   public ResponseEntity<?> save(@RequestBody Category category) {
 			Date parsedDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			category.setAddtime(formatter.format(parsedDate));
-			category.setEdittime(formatter.format(parsedDate));
-			category.setStatus("1");
-			System.out.print(category);
+			category.setCm_addedon(formatter.format(parsedDate));
+			category.setCm_updatedon(formatter.format(parsedDate));
+			category.setCm_status("1");
 			long id = categoryservice.saveCategory(category);
 			return ResponseEntity.ok().body("New Catgory Added With id" + id);
 	  }
 
-	@GetMapping("/category/{contentid}")
-	   public ResponseEntity<List<Category>> getCategory(@PathVariable("contentid") int contentid) {
-		List<Category> category = categoryservice.getCategory(contentid);
+	@GetMapping("/content/{contentid}")
+	   public ResponseEntity<List<Category>> getCategoryList(@PathVariable("contentid") int contentid) {
+		List<Category> category = categoryservice.getCategoryList(contentid);
 	     return ResponseEntity.ok().body(category);
 	  }
 	
@@ -49,9 +48,19 @@ public class CategoryController {
 	     return ResponseEntity.ok().body(result);
 	  }
 	
-	@PutMapping("/category/{id}/{name}")
-	   public ResponseEntity<Boolean> updateCategory(@PathVariable("id") int id,@PathVariable("name") String name) {
-		boolean result  = categoryservice.updateCategory(id,name);
+	@PutMapping("/category")
+	   public ResponseEntity<Boolean> updateCategory(@RequestBody Category category) {
+		Date parsedDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		category.setCm_updatedon(formatter.format(parsedDate));
+		boolean result  = categoryservice.updateCategory(category);
 		return ResponseEntity.ok().body(result);
+	  }
+	
+	@GetMapping("/category/{id}")
+	   public ResponseEntity<List<Category>> getCategory(@PathVariable("id") int id) {
+		System.out.println(id);
+		List<Category> category = categoryservice.getCategory(id);
+	     return ResponseEntity.ok().body(category);
 	  }
 }
