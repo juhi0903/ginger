@@ -15,6 +15,7 @@ import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,13 +26,18 @@ import com.globocom.model.User;
 import com.globocom.service.UserService;
 
 
-//@CrossOrigin(origins = {"http://localhost:4200"}, maxAge = 4800, allowCredentials = "false")
+@CrossOrigin(origins = {"/**"}, maxAge = 4800, allowCredentials = "false")
 @RestController
 
 public class UserController {
 
 	@Autowired
 	UserService userservice;
+	
+	@GetMapping("/")
+	   public String start() {
+	      return "START";
+	  }
 	
 	@PostMapping("/user")
 	   public ResponseEntity<?> save(@RequestBody User user) {
