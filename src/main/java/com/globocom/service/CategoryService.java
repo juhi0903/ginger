@@ -8,10 +8,12 @@ public interface CategoryService {
 	
 	long saveCategory(Category category);
 	
-	List<Category> getCategory(int contentid);
+	List<Category> getCategoryList(int contentid);
 	
 	boolean deleteCategory(int id);
 	
-	boolean updateCategory(int id, String name);
+	boolean updateCategory(Category category);
+	
+	List<Category> getCategory(int id);
 
 }

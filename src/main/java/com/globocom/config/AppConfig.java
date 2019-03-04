@@ -2,16 +2,26 @@ package com.globocom.config;
 
 import java.util.Properties;
 
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -54,6 +64,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
       // Setting Hibernate properties
       props.put(SHOW_SQL, env.getProperty("hibernate.show_sql"));
       props.put(HBM2DDL_AUTO, env.getProperty("hibernate.hbm2ddl.auto"));
+      props.put(HBM2DDL_CHARSET_NAME, "UTF-8");
 
       // Setting C3P0 properties
       props.put(C3P0_MIN_SIZE, env.getProperty("hibernate.c3p0.min_size"));
@@ -67,7 +78,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 
       return factoryBean;
    }
-
+   
    @Bean
    public HibernateTransactionManager getTransactionManager() {
       HibernateTransactionManager transactionManager = new HibernateTransactionManager();
