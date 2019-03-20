@@ -21,6 +21,9 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -49,6 +52,17 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		  .allowCredentials(false)
 		  .maxAge(4800);
 	}
+   
+   /*@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver CanBeAnyName() { 
+	   CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	   multipartResolver.setMaxUploadSize(100000);
+	   return multipartResolver;
+   }*/
+   @Bean
+   public MultipartResolver multipartResolver() {
+       return new StandardServletMultipartResolver();
+   }
 
    @Bean
    public LocalSessionFactoryBean getSessionFactory() {
