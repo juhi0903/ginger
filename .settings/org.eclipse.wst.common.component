@@ -5,6 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <property name="java-output-path" value="/spring-mvc-session-scope-example/target/classes"/>
-        <property name="context-root" value="cms-backend"/>
+        <property name="context-root" value="ginger"/>
     </wb-module>
 </project-modules>
