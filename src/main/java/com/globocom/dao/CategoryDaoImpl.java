@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.globocom.model.Category;
+import com.globocom.model.Content;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.Portal;
@@ -130,6 +131,17 @@ public class CategoryDaoImpl implements CategoryDao {
 		sessionFactory.getCurrentSession().save(portalMapping);
 	    return portalMapping.getCmp_id();
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Content> getContentList(int contentType,int categoryId){
+		
+		List<Content> content = sessionFactory.getCurrentSession().createNativeQuery("select * from content_data_master where cdm_ct_id = ?1 and cdm_cm_id = ?2")
+			.setParameter(1,contentType).setParameter(2, categoryId).list();
+		
+		return content;
+		
 	}
 
 }

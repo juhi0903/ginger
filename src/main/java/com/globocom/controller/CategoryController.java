@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
+import com.globocom.model.Content;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.User;
@@ -88,4 +89,12 @@ public class CategoryController {
 		List<Operator> operator = categoryservice.getOperator(id);
 	     return ResponseEntity.ok().body(operator);
 	  }
+	
+	@GetMapping("/content/{contentType}/{categoryId}")
+	public ResponseEntity<List<Content>> getOperator(@PathVariable("contentType") int contentType,@PathVariable("categoryId") int categoryId) {
+		List<Content> content = categoryservice.getContentList(contentType,categoryId);
+	     return ResponseEntity.ok().body(content);
+	  }
+	
+	
 }

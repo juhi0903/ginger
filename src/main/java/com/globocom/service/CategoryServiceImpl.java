@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globocom.dao.CategoryDao;
 import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
+import com.globocom.model.Content;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 
@@ -58,6 +59,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int saveContentPortalMapping(Content_Portal_Mapping portalMapping) {
 		 return categorydao.saveContentPortalMapping(portalMapping);		
+	}
+
+	@Override
+	public List<Content> getContentList(int contentType, int categoryId) {
+		return categorydao.getContentList(contentType,categoryId);
 	}
 
 }

@@ -50,6 +50,9 @@ public class UploadController {
 			System.out.println("file.getOriginalFilename()" +files.get(0).getOriginalFilename());
 			//System.out.println("file.size" +files.get(0).getSize());
 			System.out.println("contentType>>>>> " +contentType);
+			Date parsedDate = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
 
 			try {
 				GenerateRandomString randValue = new GenerateRandomString();
@@ -95,6 +98,8 @@ public class UploadController {
 										content.setCdm_ct_id(contentType);
 										content.setCdm_content_path(directoryPath + file.getName());
 										content.setCdm_title(file.getName());
+										content.setCdm_addedon(formatter.format(parsedDate));
+										content.setCdm_updatedon(formatter.format(parsedDate));
 										contentUploadService.saveContent(content);
 										System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
 									} else if (file.isDirectory()) {
@@ -106,7 +111,8 @@ public class UploadController {
 											content.setCdm_ct_id(contentType);
 											content.setCdm_content_path(directoryPath + file.getName());
 											content.setCdm_title(file.getName());
-											
+											content.setCdm_addedon(formatter.format(parsedDate));
+											content.setCdm_updatedon(formatter.format(parsedDate));
 											/*content = addContentList(contentTypeId, contentProviderId, directoryPath + file.getName() + File.separator);
 											contentList.add(content);
 											if (contentList.size() > 0) {
@@ -130,6 +136,8 @@ public class UploadController {
 									content.setCdm_ct_id(contentType);
 									content.setCdm_content_path(directoryPath + files.get(0).getName());
 									content.setCdm_title(files.get(0).getName());
+									content.setCdm_addedon(formatter.format(parsedDate));
+									content.setCdm_updatedon(formatter.format(parsedDate));
 									contentUploadService.saveContent(content);
 									// One by one Read UnZip File and Add to
 									// ContentList
