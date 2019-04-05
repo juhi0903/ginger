@@ -3,6 +3,7 @@ package com.globocom.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.globocom.model.Content;
 import com.globocom.model.User;
+import com.globocom.service.ContentUploadService;
 import com.globocom.service.UserService;
 import com.globocom.util.Constants;
 import com.globocom.util.ContentConstants;
@@ -31,6 +34,7 @@ import com.globocom.util.FileZipUtil;
 import com.globocom.util.GenerateRandomString;
 
 @CrossOrigin(origins = {"/**"}, maxAge = 4800, allowCredentials = "false")
+
 @RestController
 public class UploadController {
 	
@@ -38,13 +42,15 @@ public class UploadController {
 	FileZipUtil unZip = new FileZipUtil();
 	
 	@Autowired
-	UserService userservice;
+	ContentUploadService contentUploadService;
 	
 	@PostMapping("/upload")
-	   public ResponseEntity<?> upload(@RequestParam("file") List<MultipartFile> files,HttpServletRequest request,HttpServletResponse response) {
+	   public ResponseEntity<?> upload(@RequestParam("file") List<MultipartFile> files , @RequestParam("id") String contentType ,HttpServletRequest request,HttpServletResponse response) {
 			
 			System.out.println("file.getOriginalFilename()" +files.get(0).getOriginalFilename());
-			System.out.println("file.size" +files.get(0).getSize());
+			//System.out.println("file.size" +files.get(0).getSize());
+			System.out.println("contentType>>>>> " +contentType);
+
 			try {
 				GenerateRandomString randValue = new GenerateRandomString();
 				String directoryPath = File.separator + "content" + File.separator + randValue.getAlphaNumeric(20) + File.separator;
@@ -78,37 +84,53 @@ public class UploadController {
 							boolean checkBulk = isBulkFile(Constants.SERVER_FILE_PATH + directoryPath);
 							
 							if (checkBulk) {
-								LOGGER.info("BULK FILES UPLOADED FOUND SUCSESSFULLY");
+								System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY");
+								//LOGGER.info("BULK FILES UPLOADED FOUND SUCSESSFULLY");
 								File directory = new File(Constants.SERVER_FILE_PATH + directoryPath);
 								// get all the files from a directory
 								File[] fList = directory.listFiles();
 								for (File file : fList) {
 									if (file.isFile()) {
-										LOGGER.info("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
+										Content content = new Content();
+										content.setCdm_ct_id(contentType);
+										content.setCdm_content_path(directoryPath + file.getName());
+										content.setCdm_title(file.getName());
+										contentUploadService.saveContent(content);
+										System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
 									} else if (file.isDirectory()) {
-										//Content content = new Content();
-										LOGGER.info("BULK FILES UPLOADED FOUND SUCSESSFULLY Directory:file.getAbsolutePath() :" + file.getAbsolutePath() + "file.getName() :" + file.getName());
+										Content content = new Content();
+										System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY Directory:file.getAbsolutePath() :" + file.getAbsolutePath() + "file.getName() :" + file.getName());
 										previewFileStatus = createPreviewFiles(directoryPath + file.getName() + File.separator);
 										if (previewFileStatus) {
-											LOGGER.info("PREVIEW FILE GENERATED SUCSESSFULLY");
+											System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
+											content.setCdm_ct_id(contentType);
+											content.setCdm_content_path(directoryPath + file.getName());
+											content.setCdm_title(file.getName());
+											
 											/*content = addContentList(contentTypeId, contentProviderId, directoryPath + file.getName() + File.separator);
 											contentList.add(content);
 											if (contentList.size() > 0) {
 												LOGGER.info("CONTENT FILES ADDED SUCSESSFULLY");
 											}*/
+											contentUploadService.saveContent(content);
 										} else {
-											LOGGER.info("PREVIEW FILE NOT GENERATED SUCSESSFULLY");
+											System.out.println("PREVIEW FILE NOT GENERATED SUCSESSFULLY");
 											//message = "PREVIEW FILE NOT GENERATED SUCSESSFULLY.";
 										}
 
 									}
 								}
 							} else {
-								LOGGER.info("SINGLE FILES UPLOADED FOUND SUCSESSFULLY");
+								System.out.println("SINGLE FILES UPLOADED FOUND SUCSESSFULLY");
 								previewFileStatus = createPreviewFiles(directoryPath);
 
 								if (previewFileStatus) {
-									LOGGER.info("PREVIEW FILE GENERATED SUCSESSFULLY");
+									System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
+									Content content = new Content();
+									content.setCdm_ct_id(contentType);
+									content.setCdm_content_path(directoryPath + files.get(0).getName());
+									content.setCdm_title(files.get(0).getName());
+									contentUploadService.saveContent(content);
 									// One by one Read UnZip File and Add to
 									// ContentList
 									/*Content content = new Content();
@@ -118,7 +140,7 @@ public class UploadController {
 										LOGGER.info("CONTENT FILES ADDED SUCSESSFULLY");
 									}*/
 								} else {
-									LOGGER.info("PREVIEW FILE NOT GENERATED SUCSESSFULLY");
+									System.out.println("PREVIEW FILE NOT GENERATED SUCSESSFULLY");
 									//message = "PREVIEW FILE NOT GENERATED SUCSESSFULLY.";
 								}
 
@@ -137,7 +159,7 @@ public class UploadController {
 				e.printStackTrace();
 			}
 			
-			return ResponseEntity.ok().body("New User has been Registered with ID:");
+			return ResponseEntity.ok().body("Contet added");
 	  }
 	
 	private boolean isBulkFile(String directoryPath) {
