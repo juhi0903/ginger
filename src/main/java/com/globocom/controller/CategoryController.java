@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
+import com.globocom.model.Country;
+import com.globocom.model.Operator;
 import com.globocom.model.User;
 import com.globocom.service.CategoryService;
 
@@ -59,8 +62,30 @@ public class CategoryController {
 	
 	@GetMapping("/category/{id}")
 	   public ResponseEntity<List<Category>> getCategory(@PathVariable("id") int id) {
-		System.out.println(id);
 		List<Category> category = categoryservice.getCategory(id);
 	     return ResponseEntity.ok().body(category);
+	  }
+	
+	@PostMapping("/categorymapping")
+	public ResponseEntity<?> savePortalMapping(@RequestBody Content_Portal_Mapping portalMapping) {
+		Date parsedDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		portalMapping.setCpm_addedon(formatter.format(parsedDate));
+		portalMapping.setCpm_updatedon(formatter.format(parsedDate));
+		int id = categoryservice.saveContentPortalMapping(portalMapping);
+		return ResponseEntity.ok().body("Portal Mapping Done" + id);
+
+	  }
+	
+	@GetMapping("/country")
+	public ResponseEntity<List<Country>> getCountry() {
+		List<Country> country = categoryservice.getCountry();
+	     return ResponseEntity.ok().body(country);
+	  }
+	
+	@GetMapping("/country/{id}")
+	public ResponseEntity<List<Operator>> getOperator(@PathVariable("id") int id) {
+		List<Operator> operator = categoryservice.getOperator(id);
+	     return ResponseEntity.ok().body(operator);
 	  }
 }

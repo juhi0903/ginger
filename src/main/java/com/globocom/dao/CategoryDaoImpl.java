@@ -15,7 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.globocom.model.Category;
+import com.globocom.model.Country;
+import com.globocom.model.Operator;
+import com.globocom.model.Portal;
 import com.globocom.model.User;
+import com.globocom.model.Content_Portal_Mapping;
+
 
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
@@ -94,6 +99,37 @@ public class CategoryDaoImpl implements CategoryDao {
 	     cq.select(root);
 	     Query<Category> query = session.createQuery(cq);
 	     return query.getResultList();
+	}
+
+	@Override
+	public List<Country> getCountry() {
+		Session session = sessionFactory.getCurrentSession();
+	     CriteriaBuilder cb = session.getCriteriaBuilder();
+	     CriteriaQuery<Country> cq = cb.createQuery(Country.class);
+	     Root<Country> root = cq.from(Country.class);
+	     cq.select(root);
+	     Query<Country> query = session.createQuery(cq);
+	     List<Country> result = query.getResultList();
+	     return result;
+	}
+
+	@Override
+	public List<Operator> getOperator(int id) {
+		Session session = sessionFactory.getCurrentSession();
+	     CriteriaBuilder cb = session.getCriteriaBuilder();
+	     CriteriaQuery<Operator> cq = cb.createQuery(Operator.class);
+	     Root<Operator> root = cq.from(Operator.class);
+	     cq.where(cb.equal(root.get("territoryid"), id));
+	     cq.select(root);
+	     Query<Operator> query = session.createQuery(cq);
+	     return query.getResultList();
+	}
+
+	@Override
+	public int saveContentPortalMapping(Content_Portal_Mapping portalMapping) {
+		sessionFactory.getCurrentSession().save(portalMapping);
+	    return portalMapping.getCmp_id();
+
 	}
 
 }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globocom.dao.CategoryDao;
+import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
+import com.globocom.model.Country;
+import com.globocom.model.Operator;
 
 @Service
 @Transactional(readOnly = false)
@@ -40,6 +43,21 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getCategory(int id) {
 		return categorydao.getCategory(id);
+	}
+
+	@Override
+	public List<Country> getCountry() {
+		return categorydao.getCountry();
+	}
+
+	@Override
+	public List<Operator> getOperator(int id) {
+		return categorydao.getOperator(id);
+	}
+
+	@Override
+	public int saveContentPortalMapping(Content_Portal_Mapping portalMapping) {
+		 return categorydao.saveContentPortalMapping(portalMapping);		
 	}
 
 }
