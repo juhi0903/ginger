@@ -27,6 +27,14 @@ public interface CategoryService {
 	int saveContentPortalMapping(Content_Portal_Mapping portalMapping);
 	
 	List<Content> getContentList(int contentType,int categoryId);
+	
+	List<Content_Portal_Mapping> getContentMappingList(int portalid,int categoryId,int operatorid);
+	
+	int changeContentStatus(int id, String status);
+	
+	List<Content> getContent (int contentType, int categoryId , String status);
+	
+	int approveOrRejectContent(int id , String status);
 
 
 }

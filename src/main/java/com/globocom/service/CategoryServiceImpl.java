@@ -66,4 +66,25 @@ public class CategoryServiceImpl implements CategoryService {
 		return categorydao.getContentList(contentType,categoryId);
 	}
 
+	@Override
+	public List<Content_Portal_Mapping> getContentMappingList(int portalid,int categoryId,int operatorid) {
+		return categorydao.getContentMappingList(portalid,categoryId,operatorid);
+	}
+
+	@Override
+	public int changeContentStatus(int id, String status) {
+		return categorydao.changeContentStatus(id, status);
+	}
+
+	@Override
+	public List<Content> getContent(int contentType, int categoryId, String status) {
+		return categorydao.getContent(contentType, categoryId, status);
+	}
+
+	@Override
+	public int approveOrRejectContent(int id, String status) {
+		return categorydao.approveOrRejectContent(id, status);
+	}
+
+
 }

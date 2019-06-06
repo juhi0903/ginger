@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="users_login")
@@ -32,6 +33,9 @@ public class User {
     private String ul_password;
     
     private String ul_name;
+    
+    @Transient
+    private String ul_newpassword;
 
 	public long getUl_id() {
 		return ul_id;
@@ -113,13 +117,23 @@ public class User {
 		this.ul_name = ul_name;
 	}
 
+	public String getUl_newpassword() {
+		return ul_newpassword;
+	}
+
+	public void setUl_newpassword(String ul_newpassword) {
+		this.ul_newpassword = ul_newpassword;
+	}
+
 	@Override
 	public String toString() {
 		return "User [ul_id=" + ul_id + ", ul_username=" + ul_username + ", ul_email=" + ul_email + ", ul_addedon="
 				+ ul_addedon + ", ul_updatedon=" + ul_updatedon + ", ul_user_role=" + ul_user_role + ", ul_status="
-				+ ul_status + ", ul_phone=" + ul_phone + ", ul_password=" + ul_password + ", ul_name=" + ul_name + "]";
+				+ ul_status + ", ul_phone=" + ul_phone + ", ul_password=" + ul_password + ", ul_name=" + ul_name
+				+ ", ul_newpassword=" + ul_newpassword + "]";
 	}
-    
+
+	
     
 
 	

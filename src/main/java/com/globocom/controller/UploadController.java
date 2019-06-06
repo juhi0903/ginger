@@ -95,7 +95,7 @@ public class UploadController {
 								for (File file : fList) {
 									if (file.isFile()) {
 										Content content = new Content();
-										content.setCdm_ct_id(contentType);
+//										content.setCdm_ct_id(contentType);
 										content.setCdm_content_path(directoryPath + file.getName());
 										content.setCdm_title(file.getName());
 										content.setCdm_addedon(formatter.format(parsedDate));
@@ -108,7 +108,7 @@ public class UploadController {
 										previewFileStatus = createPreviewFiles(directoryPath + file.getName() + File.separator);
 										if (previewFileStatus) {
 											System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
-											content.setCdm_ct_id(contentType);
+//											content.setCdm_ct_id(contentType);
 											content.setCdm_content_path(directoryPath + file.getName());
 											content.setCdm_title(file.getName());
 											content.setCdm_addedon(formatter.format(parsedDate));
@@ -133,7 +133,7 @@ public class UploadController {
 								if (previewFileStatus) {
 									System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
 									Content content = new Content();
-									content.setCdm_ct_id(contentType);
+//									content.setCdm_ct_id(contentType);
 									content.setCdm_content_path(directoryPath + files.get(0).getName());
 									content.setCdm_title(files.get(0).getName());
 									content.setCdm_addedon(formatter.format(parsedDate));

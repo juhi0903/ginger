@@ -11,11 +11,16 @@ import javax.persistence.Table;
 public class Content {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	String cdm_id;
-	String cdm_ul_id;
-	String cdm_ct_id;
-	String cdm_cm_id;
+	private int cdm_id;
+	
+	private int cdm_ul_id;
+	
+	private int cdm_ct_id;
+	
+	private int cdm_cm_id;
+	
 	String cdm_title;
+	
 	String cdm_title_arabic;
 	String cdm_title_russian;
 	String cdm_title_french;
@@ -40,35 +45,36 @@ public class Content {
 	String cdm_thumbnail_3;
 	String cdm_content_path;
 
-	public String getCdm_id() {
+
+	public int getCdm_id() {
 		return cdm_id;
 	}
 
-	public void setCdm_id(String cdm_id) {
+	public void setCdm_id(int cdm_id) {
 		this.cdm_id = cdm_id;
 	}
 
-	public String getCdm_ul_id() {
+	public int getCdm_ul_id() {
 		return cdm_ul_id;
 	}
 
-	public void setCdm_ul_id(String cdm_ul_id) {
+	public void setCdm_ul_id(int cdm_ul_id) {
 		this.cdm_ul_id = cdm_ul_id;
 	}
 
-	public String getCdm_ct_id() {
+	public int getCdm_ct_id() {
 		return cdm_ct_id;
 	}
 
-	public void setCdm_ct_id(String cdm_ct_id) {
+	public void setCdm_ct_id(int cdm_ct_id) {
 		this.cdm_ct_id = cdm_ct_id;
 	}
 
-	public String getCdm_cm_id() {
+	public int getCdm_cm_id() {
 		return cdm_cm_id;
 	}
 
-	public void setCdm_cm_id(String cdm_cm_id) {
+	public void setCdm_cm_id(int cdm_cm_id) {
 		this.cdm_cm_id = cdm_cm_id;
 	}
 
@@ -258,24 +264,19 @@ public class Content {
 
 	@Override
 	public String toString() {
-		return "Content [cdm_id=" + cdm_id + ", cdm_ul_id=" + cdm_ul_id
-				+ ", cdm_ct_id=" + cdm_ct_id + ", cdm_cm_id=" + cdm_cm_id
-				+ ", cdm_title=" + cdm_title + ", cdm_title_arabic="
-				+ cdm_title_arabic + ", cdm_title_russian=" + cdm_title_russian
-				+ ", cdm_title_french=" + cdm_title_french
-				+ ", cdm_title_italic=" + cdm_title_italic
-				+ ", cdm_title_greek=" + cdm_title_greek + ", cdm_title_thai="
-				+ cdm_title_thai + ", cdm_short_desc=" + cdm_short_desc
-				+ ", cdm_long_desc=" + cdm_long_desc + ", cdm_status="
-				+ cdm_status + ", cdm_live=" + cdm_live + ", cdm_addedon="
-				+ cdm_addedon + ", cdm_updatedon=" + cdm_updatedon
-				+ ", cdm_licensed_till=" + cdm_licensed_till + ", cdm_hosting="
-				+ cdm_hosting + ", cdm_remarks=" + cdm_remarks + ", cdm_album="
-				+ cdm_album + ", cdm_artist=" + cdm_artist + ", cdm_tags="
-				+ cdm_tags + ", cdm_thumbnail_1=" + cdm_thumbnail_1
-				+ ", cdm_thumbnail_2=" + cdm_thumbnail_2 + ", cdm_thumbnail_3="
-				+ cdm_thumbnail_3 + ", cdm_content_path=" + cdm_content_path
-				+ "]";
+		return "Content [cdm_id=" + cdm_id + ", cdm_ul_id=" + cdm_ul_id + ", cdm_ct_id=" + cdm_ct_id + ", cdm_cm_id="
+				+ cdm_cm_id + ", cdm_title=" + cdm_title + ", cdm_title_arabic=" + cdm_title_arabic
+				+ ", cdm_title_russian=" + cdm_title_russian + ", cdm_title_french=" + cdm_title_french
+				+ ", cdm_title_italic=" + cdm_title_italic + ", cdm_title_greek=" + cdm_title_greek
+				+ ", cdm_title_thai=" + cdm_title_thai + ", cdm_short_desc=" + cdm_short_desc + ", cdm_long_desc="
+				+ cdm_long_desc + ", cdm_status=" + cdm_status + ", cdm_live=" + cdm_live + ", cdm_addedon="
+				+ cdm_addedon + ", cdm_updatedon=" + cdm_updatedon + ", cdm_licensed_till=" + cdm_licensed_till
+				+ ", cdm_hosting=" + cdm_hosting + ", cdm_remarks=" + cdm_remarks + ", cdm_album=" + cdm_album
+				+ ", cdm_artist=" + cdm_artist + ", cdm_tags=" + cdm_tags + ", cdm_thumbnail_1=" + cdm_thumbnail_1
+				+ ", cdm_thumbnail_2=" + cdm_thumbnail_2 + ", cdm_thumbnail_3=" + cdm_thumbnail_3
+				+ ", cdm_content_path=" + cdm_content_path + "]";
 	}
+
+	
 
 }

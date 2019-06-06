@@ -44,7 +44,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
    @Override
 	public void addCorsMappings(CorsRegistry registry) {
 	  registry.addMapping("/**")
-	   	  .allowedOrigins("http://localhost:4200", "http://localhost:8787")
+	   	  .allowedOrigins("http://localhost:4200", "http://localhost:8000" ,"http://127.0.0.1:8000")
 	  	  //.allowedOrigins("/**")
 		  .allowedMethods("POST", "GET",  "PUT", "OPTIONS", "DELETE")
 		  .allowedHeaders("X-Auth-Token", "Content-Type")
@@ -78,7 +78,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
       // Setting Hibernate properties
       props.put(SHOW_SQL, env.getProperty("hibernate.show_sql"));
       props.put(HBM2DDL_AUTO, env.getProperty("hibernate.hbm2ddl.auto"));
-      props.put(HBM2DDL_CHARSET_NAME, "UTF-8");
+//      props.put(HBM2DDL_CHARSET_NAME, "UTF-8");
 
       // Setting C3P0 properties
       props.put(C3P0_MIN_SIZE, env.getProperty("hibernate.c3p0.min_size"));
@@ -89,6 +89,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 
       factoryBean.setHibernateProperties(props);
       factoryBean.setPackagesToScan("com.globocom.model");
+
 
       return factoryBean;
    }

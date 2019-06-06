@@ -98,20 +98,40 @@ public class UserController {
 	
 	@PostMapping("/password")
 	public ResponseEntity<?> setPassword(HttpServletRequest request, HttpServletResponse response ,@RequestBody User user) {
+		Integer status = 403;
+		String message = "";
+		
 		String username = user.getUl_username();
 		String password = user.getUl_password();
+		String newpassord = user.getUl_newpassword();
 		
 		try {
-			boolean check = userservice.updatePassword(username,password);
-			if(check == true) {
-				return ResponseEntity.status(200).body("Password Updated Successfully");
+			if (username == null || password == null || "".equals(password) || "".equals(username)) {
+				System.out.println("Enter User ID and Password");
+				message = "Enter User ID and Password";
+			}else {
+				boolean checkoldPassword = userservice.login(username,password);
+					if(checkoldPassword == true) {
+						boolean check = userservice.updatePassword(username,newpassord);
+						if(check == true) {
+							status = 200;
+							message = "Password Updated Successfully";
+						}
+					}else {
+						status = 402;
+						message = "Old Password Doesn't Match";
+					}
+				 
 			}
 		}catch (GenericJDBCException exception) {
 	
 		}
 		
 	
-		return ResponseEntity.status(400).body("Some error occured!!");
+		Map<String, Object> map = new HashMap<>();
+		map.put("message", message);
+		map.put("status", status);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 		
 	}
 	

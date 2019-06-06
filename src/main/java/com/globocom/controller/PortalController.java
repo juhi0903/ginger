@@ -34,7 +34,7 @@ public class PortalController {
 			portal.setPm_status("1");
 			portal.setPm_logo("/home/logo");
 			
-			System.out.println(portal);
+//			System.out.println(portal);
 			
 			int id = portalservice.save(portal);
 			return ResponseEntity.ok().body("New Portal has been Registered with ID:" + id);
