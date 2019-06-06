@@ -33,10 +33,10 @@ public class UserController {
 	@Autowired
 	UserService userservice;
 	
-//	@GetMapping("/")
-//	   public String start() {
-//	      return "START";
-//	  }
+	@GetMapping("/")
+	   public String start() {
+	      return "START";
+	  }
 	
 	@PostMapping("/user")
 	   public ResponseEntity<?> save(@RequestBody User user) {

@@ -20,29 +20,30 @@ public class Content {
 	private int cdm_cm_id;
 	
 	String cdm_title;
-	
-	String cdm_title_arabic;
-	String cdm_title_russian;
-	String cdm_title_french;
-	String cdm_title_italic;
-	String cdm_title_greek;
-	String cdm_title_thai;
-	String cdm_short_desc;
-	String cdm_long_desc;
-	String cdm_status;
-	String cdm_live;
+
+	String cdm_title_arabic = "";
+	String cdm_title_russian = "";
+	String cdm_title_french = "";
+	String cdm_title_italic = "";
+	String cdm_title_greek = "";
+	String cdm_title_thai = "";
+	String cdm_short_desc="";
+	String cdm_long_desc="";
+	String cdm_status = "UPLOADED";
+	String cdm_live = "NO";
+
 	String cdm_addedon;
 
 	String cdm_updatedon;
 	String cdm_licensed_till;
-	String cdm_hosting;
-	String cdm_remarks;
-	String cdm_album;
-	String cdm_artist;
-	String cdm_tags;
-	String cdm_thumbnail_1;
-	String cdm_thumbnail_2;
-	String cdm_thumbnail_3;
+	String cdm_hosting = "LOCAL";
+	String cdm_remarks ="";
+	String cdm_album = "";
+	String cdm_artist = "";
+	String cdm_tags = "";
+	String cdm_thumbnail_1 = "";
+	String cdm_thumbnail_2 = "";
+	String cdm_thumbnail_3 = "";
 	String cdm_content_path;
 
 
