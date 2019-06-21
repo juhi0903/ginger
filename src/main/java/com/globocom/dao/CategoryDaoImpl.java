@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import com.globocom.model.Category;
 import com.globocom.model.Content;
+import com.globocom.model.ContentProvider;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.Portal;
@@ -259,6 +260,17 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	    int count = session.createQuery(ct).executeUpdate();
 	    return count;
+	}
+
+	@Override
+	public long saveContentProvider(ContentProvider contentprovider) {
+		try {
+			sessionFactory.getCurrentSession().save(contentprovider);
+		}
+		catch(Exception e) {
+			sessionFactory.getCurrentSession().save(contentprovider);
+		}
+		return contentprovider.getId();
 	}
 
 }

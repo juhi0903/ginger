@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.globocom.model.Category;
 import com.globocom.model.Content;
+import com.globocom.model.ContentProvider;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.Content_Portal_Mapping;
@@ -36,6 +37,9 @@ public interface CategoryDao {
 	List<Content> getContent (int contentType, int categoryId , String status);
 	
 	int approveOrRejectContent(int id , String status);
+	
+	long saveContentProvider(ContentProvider contentprovider);
+
 
 
 }
