@@ -10,6 +10,7 @@ import com.globocom.dao.CategoryDao;
 import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
 import com.globocom.model.Content;
+import com.globocom.model.ContentProvider;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 
@@ -84,6 +85,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int approveOrRejectContent(int id, String status) {
 		return categorydao.approveOrRejectContent(id, status);
+	}
+
+	@Override
+	public long saveContentProvider(ContentProvider contentprovider) {
+		return categorydao.saveContentProvider(contentprovider);
 	}
 
 

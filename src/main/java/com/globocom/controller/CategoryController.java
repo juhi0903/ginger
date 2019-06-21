@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Category;
 import com.globocom.model.Content;
+import com.globocom.model.ContentProvider;
 import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.User;
@@ -151,6 +152,18 @@ public class CategoryController {
 		int row  = categoryservice.approveOrRejectContent(id, "REJECTED");
 //		System.out.println(contentList);
 	    return ResponseEntity.ok().body("Content Rejected");
+	  }
+	
+	@PostMapping("/contentprovider")
+	   public ResponseEntity<?> saveContentProvider(@RequestBody ContentProvider contentprovider) {
+			
+		Date parsedDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		contentprovider.setAddtime(formatter.format(parsedDate));
+		contentprovider.setEdittime(formatter.format(parsedDate));
+		contentprovider.setStatus("1");
+		long id = categoryservice.saveContentProvider(contentprovider);
+		return ResponseEntity.ok().body("New CP Added With id " + id);
 	  }
 	
 }
