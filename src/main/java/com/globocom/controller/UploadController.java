@@ -3,6 +3,9 @@ package com.globocom.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -49,7 +52,7 @@ public class UploadController {
 	ContentUploadService contentUploadService;
 	
 	@PostMapping("/upload")
-	   public ResponseEntity<?> upload(@RequestParam("file") List<MultipartFile> files , @RequestParam("id") String contentType , @RequestParam("categoryid") String categoryId , HttpServletRequest request,HttpServletResponse response) {
+	   public ResponseEntity<?> upload(@RequestParam("file") List<MultipartFile> files, @RequestParam("id") String contentType , @RequestParam("categoryid") String categoryId , HttpServletRequest request,HttpServletResponse response) {
 			
 			System.out.println("file.getOriginalFilename()" +files.get(0).getOriginalFilename());
 			//System.out.println("file.size" +files.get(0).getSize());
@@ -70,9 +73,7 @@ public class UploadController {
 				}
 				boolean previewFileStatus = false;
 				if (null != files && files.size() > 0) {
-					if("1008".equals(contentType)){
-						
-					}else{
+					
 					for (MultipartFile multipartFile : files) {
 						String fileName = "";
 						try {
@@ -81,7 +82,7 @@ public class UploadController {
 							if (fileName.lastIndexOf(ContentConstants.ZIP_FILE_EXTENSION) > 0) {
 								System.out.println("READ ZIP File:" + fileName);
 
-							} else if (fileName.lastIndexOf(ContentConstants.RAR_FILE_EXTENSION) > 0) {
+							} else if (fileName.lastIndexOf(ContentConstants.RAR_FILE_EXTENSION) > 0) {	
 								System.out.println("READ RAR File:" + fileName);
 
 							}
@@ -143,8 +144,58 @@ public class UploadController {
 								System.out.println("SINGLE FILES UPLOADED FOUND SUCSESSFULLY");
 								previewFileStatus = createPreviewFiles(directoryPath);
 								String contentfileName = fileName.substring(0, fileName.lastIndexOf("."));
+								File directory = new File(Constants.SERVER_FILE_PATH + directoryPath);
+								File[] fList = directory.listFiles();
+								if("1008".equals(contentType)){
+									for (File file : fList) {
+										if (file.isFile()) {
+											String extension = file.getName().substring(file.getName().lastIndexOf("."), file.getName().length());
+											if(extension.equalsIgnoreCase(".xlsx")||extension.equalsIgnoreCase(".csv")){
+												try {
+													contentfileName =  file.getName().substring(0, file.getName().lastIndexOf("."));
+													Content content = new Content();
+													content.setCdm_cm_id(Integer.parseInt(categoryId));
+													content.setCdm_ct_id(Integer.parseInt(contentType));
+													content.setCdm_content_path(directoryPath + file.getName());
+													content.setCdm_title(contentfileName);
+													content.setCdm_addedon(formatter.format(parsedDate));
+													content.setCdm_updatedon(formatter.format(parsedDate));
+													content.setCdm_licensed_till(formatter.format(parsedDate));
+													content.setCdm_cm_id(Integer.parseInt(categoryId));
+													contentUploadService.saveContent(content);
+												} catch (Exception e) {
+													// TODO: handle exception
+												}
+												
+												readExcel(file,directoryPath,categoryId);
+											}
+										}
+									}
+									
+									}else{
+								
+									for (File file : fList) {
+										if (file.isFile()) {
+											
+										    contentfileName =  file.getName().substring(0, file.getName().lastIndexOf("."));
+											Content content = new Content();
+											content.setCdm_cm_id(Integer.parseInt(categoryId));
+											content.setCdm_ct_id(Integer.parseInt(contentType));
+											content.setCdm_content_path(directoryPath + file.getName());
+											content.setCdm_title(contentfileName);
+											content.setCdm_addedon(formatter.format(parsedDate));
+											content.setCdm_updatedon(formatter.format(parsedDate));
+											content.setCdm_licensed_till(formatter.format(parsedDate));
+											content.setCdm_cm_id(Integer.parseInt(categoryId));
+											contentUploadService.saveContent(content);
+											System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
+											
+										}
+									}
+							}
+								
 								if (previewFileStatus) {
-									System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
+									/*System.out.println("PREVIEW FILE GENERATED SUCSESSFULLY");
 									Content content = new Content();
 
 //									content.setCdm_ct_id(contentType);
@@ -158,7 +209,7 @@ public class UploadController {
 									content.setCdm_updatedon(formatter.format(parsedDate));
 									content.setCdm_licensed_till(formatter.format(parsedDate));
 									content.setCdm_cm_id(Integer.parseInt(categoryId));
-									contentUploadService.saveContent(content);
+									contentUploadService.saveContent(content);*/
 									// One by one Read UnZip File and Add to
 									// ContentList
 									/*Content content = new Content();
@@ -179,7 +230,7 @@ public class UploadController {
 							e.printStackTrace();
 						}
 					}
-				}
+				
 					
 				}
 			} catch (Exception e) {
@@ -295,15 +346,20 @@ public class UploadController {
 
 	}
 	
-	public static void readExcel(String filepath) throws IOException{
+	public void readExcel(File filepath,String directoryPath,String categoryId) throws IOException{
 
-		FileInputStream file = new FileInputStream(new File(filepath)); 
+		//FileInputStream file = new FileInputStream(new File(filepath)); 
+		FileInputStream file = new FileInputStream(filepath); 
 		XSSFWorkbook workbook = new XSSFWorkbook(file); 
 		XSSFSheet sheet = workbook.getSheetAt(0); 
 	    Row row;
+	    
+	    Date parsedDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    
 	    for(int i=1; i<=sheet.getLastRowNum(); i++){  //points to the starting of excel i.e excel first row
 	        row = (Row) sheet.getRow(i);  //sheet number
-
+	        	Content content=new Content();
 	            String title;
 				if( row.getCell(0)==null) { title = "null"; }
 	            else title= row.getCell(0).toString();
@@ -320,9 +376,52 @@ public class UploadController {
 				if( row.getCell(3)==null) { previewPath = "null";   }
 	               else  previewPath   = row.getCell(3).toString();
 				
+//				content.setCdm_content_path(directoryPath + files.get(0).getName());
+				content.setCdm_title(title);
+
+				content.setCdm_ct_id(1008);
+				content.setCdm_content_path(directoryPath+previewPath );
+				content.setCdm_title(title);
+				content.setCdm_url(link);
+				content.setCdm_addedon(formatter.format(parsedDate));
+				content.setCdm_updatedon(formatter.format(parsedDate));
+				content.setCdm_licensed_till(formatter.format(parsedDate));
+				content.setCdm_cm_id(Integer.parseInt(categoryId));
+				contentUploadService.saveContent(content);
+				
 		System.out.println("title:"+title+" name:"+link+" address:"+description+" previewPath:"+previewPath);
 	    }
 		file.close();
 
+	}
+	
+	public  static File multipartToFile(MultipartFile multipart, String fileName) throws IllegalStateException, IOException {
+	    File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
+	    multipart.transferTo(convFile);
+	    return convFile;
+	}
+	
+	
+	public String saveContent(String localFilePath,String directoryPath){
+		String newFilePath = "";
+		try {
+			//File file = new File("D:\\gameUploadSheets\\meta data format\\meta data format\\Previews\\5Jump_800x389.jpg");
+			File file = new File(localFilePath);
+			
+			Files.copy(file.toPath(),(new File(directoryPath + file.getName())).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			newFilePath = file.getName();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return newFilePath; 
+	}
+	
+	public static void main(String[] args) {
+		String src = "D:\\gameUploadSheets\\meta data format\\meta data format\\Previews\\5Jump_800x389.jpg";
+		String dest = "D:\\rahul\\cms_content\\content\\";
+		new UploadController().saveContent(src,dest);
+		
+		//new UploadController().saveContent("D:\\gameUploadSheets\\meta data format\\meta data format\\Previews\\");
 	}
 }
