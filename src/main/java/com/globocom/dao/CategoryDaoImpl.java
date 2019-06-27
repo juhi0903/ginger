@@ -273,4 +273,16 @@ public class CategoryDaoImpl implements CategoryDao {
 		return contentprovider.getId();
 	}
 
+	@Override
+	public List<Content> getHtmlGamesExcel(int id) {
+		Session session = sessionFactory.getCurrentSession();
+	    CriteriaBuilder cb = session.getCriteriaBuilder();
+	    CriteriaQuery<Content> cq = cb.createQuery(Content.class);
+	     Root<Content> root = cq.from(Content.class);
+	     cq.where(cb.equal(root.get("cdm_cm_id"), id),cb.equal(root.get("cdm_ct_id"), "1008"),cb.like(root.get("cdm_content_path"), "%xlsx"));
+	     cq.select(root);
+	     Query<Content> query = session.createQuery(cq);
+	     return query.getResultList();
+	}
+
 }

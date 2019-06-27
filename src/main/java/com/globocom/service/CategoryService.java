@@ -38,6 +38,8 @@ public interface CategoryService {
 	int approveOrRejectContent(int id , String status);
 	
 	long saveContentProvider(ContentProvider contentprovider);
+	
+	List<Content> getHtmlGamesExcel(int id);
 
 
 

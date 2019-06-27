@@ -166,4 +166,13 @@ public class CategoryController {
 		return ResponseEntity.ok().body("New CP Added With id " + id);
 	  }
 	
+	
+	@GetMapping("/htmlgames/{id}")
+	public ResponseEntity<?> getHtmlGamesExcel(@PathVariable("id") int id) {
+		
+		 List<Content> contentList = categoryservice.getHtmlGamesExcel(id);
+		
+		 return ResponseEntity.ok().body(contentList);	  
+	}
+	
 }
