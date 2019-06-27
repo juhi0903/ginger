@@ -44,6 +44,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
    @Override
 	public void addCorsMappings(CorsRegistry registry) {
 	  registry.addMapping("/**")
+
 	   	  .allowedOrigins("http://localhost:4200", "http://localhost:8000" ,"http://127.0.0.1:8000" ,"http://43.231.124.147:8585")
 	  	  //.allowedOrigins("/**")
 		  .allowedMethods("POST", "GET",  "PUT", "OPTIONS", "DELETE")

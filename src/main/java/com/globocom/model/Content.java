@@ -31,9 +31,7 @@ public class Content {
 	String cdm_long_desc="";
 	String cdm_status = "UPLOADED";
 	String cdm_live = "NO";
-
 	String cdm_addedon;
-
 	String cdm_updatedon;
 	String cdm_licensed_till;
 	String cdm_hosting = "LOCAL";
@@ -45,7 +43,16 @@ public class Content {
 	String cdm_thumbnail_2 = "";
 	String cdm_thumbnail_3 = "";
 	String cdm_content_path;
+	String cdm_url="";
 
+
+	public String getCdm_url() {
+		return cdm_url;
+	}
+
+	public void setCdm_url(String cdm_url) {
+		this.cdm_url = cdm_url;
+	}
 
 	public int getCdm_id() {
 		return cdm_id;
