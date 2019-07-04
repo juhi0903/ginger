@@ -97,5 +97,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categorydao.getHtmlGamesExcel(id);
 	}
 
+	@Override
+	public List<ContentProvider> getContentProvider() {
+		return categorydao.getContentProvider();
+	}
+
 
 }

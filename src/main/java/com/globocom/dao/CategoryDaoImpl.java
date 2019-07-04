@@ -240,7 +240,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
 	     Root<Content> root = cq.from(Content.class);
-	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId) , cb.equal(root.get("cdm_status"),status));
+	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId) , cb.equal(root.get("cdm_status"),status),cb.notLike(root.get("cdm_content_path"), "%xlsx"));
 	     cq.select(root);
 	     Query<Content> query = session.createQuery(cq);
 	     System.out.println(query.getResultList());
@@ -283,6 +283,18 @@ public class CategoryDaoImpl implements CategoryDao {
 	     cq.select(root);
 	     Query<Content> query = session.createQuery(cq);
 	     return query.getResultList();
+	}
+
+	@Override
+	public List<ContentProvider> getContentProvider() {
+		Session session = sessionFactory.getCurrentSession();
+	     CriteriaBuilder cb = session.getCriteriaBuilder();
+	     CriteriaQuery<ContentProvider> cq = cb.createQuery(ContentProvider.class);
+	     Root<ContentProvider> root = cq.from(ContentProvider.class);
+	     cq.select(root);
+	     Query<ContentProvider> query = session.createQuery(cq);
+	     List<ContentProvider> result = query.getResultList();
+	     return result;
 	}
 
 }

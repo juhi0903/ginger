@@ -1,6 +1,7 @@
 package com.globocom.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -174,5 +175,13 @@ public class CategoryController {
 		
 		 return ResponseEntity.ok().body(contentList);	  
 	}
+	
+	@GetMapping("/contentprovider")
+	   public ResponseEntity<?> getContentProvider() {
+			
+		List<ContentProvider> contentProvider = new ArrayList<>();
+		contentProvider = categoryservice.getContentProvider();
+		return ResponseEntity.ok().body(contentProvider );
+	  }
 	
 }

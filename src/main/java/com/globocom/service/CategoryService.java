@@ -40,6 +40,9 @@ public interface CategoryService {
 	long saveContentProvider(ContentProvider contentprovider);
 	
 	List<Content> getHtmlGamesExcel(int id);
+	
+	List<ContentProvider> getContentProvider();
+
 
 
 

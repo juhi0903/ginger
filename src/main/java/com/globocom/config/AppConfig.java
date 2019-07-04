@@ -30,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import static org.hibernate.cfg.Environment.*;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
