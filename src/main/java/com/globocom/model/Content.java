@@ -19,32 +19,41 @@ public class Content {
 	
 	private int cdm_cm_id;
 	
-	String cdm_title;
+	private String cdm_title;
 
-	String cdm_title_arabic = "";
-	String cdm_title_russian = "";
-	String cdm_title_french = "";
-	String cdm_title_italic = "";
-	String cdm_title_greek = "";
-	String cdm_title_thai = "";
-	String cdm_short_desc="";
-	String cdm_long_desc="";
-	String cdm_status = "UPLOADED";
-	String cdm_live = "NO";
-	String cdm_addedon;
-	String cdm_updatedon;
-	String cdm_licensed_till;
-	String cdm_hosting = "LOCAL";
-	String cdm_remarks ="";
-	String cdm_album = "";
-	String cdm_artist = "";
-	String cdm_tags = "";
-	String cdm_thumbnail_1 = "";
-	String cdm_thumbnail_2 = "";
-	String cdm_thumbnail_3 = "";
-	String cdm_content_path;
-	String cdm_url="";
+	private String cdm_title_arabic = "";
+	private String cdm_title_russian = "";
+	private String cdm_title_french = "";
+	private String cdm_title_italic = "";
+	private String cdm_title_greek = "";
+	private String cdm_title_thai = "";
+	private String cdm_short_desc="";
+	private String cdm_long_desc="";
+	private String cdm_status = "UPLOADED";
+	private String cdm_live = "NO";
+	private String cdm_addedon;
+	private String cdm_updatedon;
+	private String cdm_licensed_till;
+	private String cdm_hosting = "LOCAL";
+	private String cdm_remarks ="";
+	private String cdm_album = "";
+	private String cdm_artist = "";
+	private String cdm_tags = "";
+	private String cdm_thumbnail_1 = "";
+	private String cdm_thumbnail_2 = "";
+	private String cdm_thumbnail_3 = "";
+	private String cdm_content_path;
+	private String cdm_url="";
+	private String cdm_cp;
 
+
+	public String getCdm_cp() {
+		return cdm_cp;
+	}
+
+	public void setCdm_cp(String cdm_cp) {
+		this.cdm_cp = cdm_cp;
+	}
 
 	public String getCdm_url() {
 		return cdm_url;
@@ -282,7 +291,7 @@ public class Content {
 				+ ", cdm_hosting=" + cdm_hosting + ", cdm_remarks=" + cdm_remarks + ", cdm_album=" + cdm_album
 				+ ", cdm_artist=" + cdm_artist + ", cdm_tags=" + cdm_tags + ", cdm_thumbnail_1=" + cdm_thumbnail_1
 				+ ", cdm_thumbnail_2=" + cdm_thumbnail_2 + ", cdm_thumbnail_3=" + cdm_thumbnail_3
-				+ ", cdm_content_path=" + cdm_content_path + "]";
+				+ ", cdm_content_path=" + cdm_content_path + ", cdm_url=" + cdm_url + ", cdm_cp=" + cdm_cp + "]";
 	}
 
 	
