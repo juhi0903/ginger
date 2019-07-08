@@ -93,8 +93,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Content> getHtmlGamesExcel(int id) {
-		return categorydao.getHtmlGamesExcel(id);
+	public List<Content> getHtmlGamesExcel(int id , int cp) {
+		return categorydao.getHtmlGamesExcel(id , cp);
 	}
 
 	@Override

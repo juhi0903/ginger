@@ -40,7 +40,7 @@ public interface CategoryDao {
 	
 	long saveContentProvider(ContentProvider contentprovider);
 	
-	List<Content> getHtmlGamesExcel(int id);
+	List<Content> getHtmlGamesExcel(int id , int cp);
 	
 	List<ContentProvider> getContentProvider();
 

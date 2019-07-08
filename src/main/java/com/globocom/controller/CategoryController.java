@@ -1,12 +1,14 @@
 package com.globocom.controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.hibernate.SessionFactory;
 import org.hibernate.type.TrueFalseType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import com.globocom.model.Country;
 import com.globocom.model.Operator;
 import com.globocom.model.User;
 import com.globocom.service.CategoryService;
+import com.globocom.util.Constants;
 
 @CrossOrigin(origins = {"/**"}, maxAge = 4800, allowCredentials = "false") 
 
@@ -168,10 +171,10 @@ public class CategoryController {
 	  }
 	
 	
-	@GetMapping("/htmlgames/{id}")
-	public ResponseEntity<?> getHtmlGamesExcel(@PathVariable("id") int id) {
+	@GetMapping("/htmlgames/{id}/{cp}")
+	public ResponseEntity<?> getHtmlGamesExcel(@PathVariable("id") int id,@PathVariable("cp") int cp) {
 		
-		 List<Content> contentList = categoryservice.getHtmlGamesExcel(id);
+		 List<Content> contentList = categoryservice.getHtmlGamesExcel(id,cp);
 		
 		 return ResponseEntity.ok().body(contentList);	  
 	}
@@ -183,5 +186,6 @@ public class CategoryController {
 		contentProvider = categoryservice.getContentProvider();
 		return ResponseEntity.ok().body(contentProvider );
 	  }
+	
 	
 }

@@ -95,6 +95,7 @@
 			<version>1.6.4</version>
 			<scope>runtime</scope>
 		</dependency>
+		
 
 		<!-- add log4j binding to classpath -->
 		<!-- routes slf4j calls to log4j -->

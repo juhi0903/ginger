@@ -234,17 +234,42 @@ public class CategoryDaoImpl implements CategoryDao {
 	    return count;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Content> getContent(int contentType, int categoryId, String status) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
-	     Root<Content> root = cq.from(Content.class);
-	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId) , cb.equal(root.get("cdm_status"),status),cb.notLike(root.get("cdm_content_path"), "%xlsx"));
-	     cq.select(root);
-	     Query<Content> query = session.createQuery(cq);
-	     System.out.println(query.getResultList());
-	     return query.getResultList();
+		List<Content> contentList = new ArrayList<>();
+		
+		List<Object> data = sessionFactory.getCurrentSession().
+				createNativeQuery("select cdm_id,cdm_ct_id,cdm_cm_id,cdm_title,cpname,date(addtime),status,cdm_content_path,cdm_url  from content_data_master cd ,content_provider cp"
+						+ " where cd.cdm_cp = cp.id and cd.cdm_cm_id=?1 and cd.cdm_ct_id=?2 and cd.cdm_status=?3 and cdm_content_path NOT LIKE '%xlsx';")
+						.setParameter(1,categoryId).setParameter(2, contentType).setParameter(3, status).list();
+		
+		Iterator itr = data.iterator();
+		
+		while(itr.hasNext()){
+			Object[] obj = (Object[]) itr.next();
+			Content tempdata = new Content();
+			tempdata.setCdm_id(Integer.parseInt(String.valueOf(obj[0])));
+			tempdata.setCdm_ct_id(Integer.parseInt(String.valueOf(obj[1])));
+			tempdata.setCdm_cm_id(Integer.parseInt(String.valueOf(obj[2])));
+			tempdata.setCdm_title(String.valueOf(obj[3]));
+			tempdata.setCdm_cp(String.valueOf(obj[4]));
+			tempdata.setCdm_addedon(String.valueOf(obj[5]));
+			tempdata.setCdm_status(String.valueOf(obj[6]));
+			tempdata.setCdm_content_path(String.valueOf(obj[7]));
+			tempdata.setCdm_url(String.valueOf(obj[8]));
+			contentList.add(tempdata);
+		}
+		
+//		Session session = sessionFactory.getCurrentSession();
+//		CriteriaBuilder cb = session.getCriteriaBuilder();
+//	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
+//	     Root<Content> root = cq.from(Content.class);
+//	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId) , cb.equal(root.get("cdm_status"),status),cb.notLike(root.get("cdm_content_path"), "%xlsx"));
+//	     cq.select(root);
+//	     Query<Content> query = session.createQuery(cq);
+//	     System.out.println(query.getResultList());
+	     return contentList;
 	}
 
 
@@ -274,12 +299,12 @@ public class CategoryDaoImpl implements CategoryDao {
 	}
 
 	@Override
-	public List<Content> getHtmlGamesExcel(int id) {
+	public List<Content> getHtmlGamesExcel(int id , int cp) {
 		Session session = sessionFactory.getCurrentSession();
 	    CriteriaBuilder cb = session.getCriteriaBuilder();
 	    CriteriaQuery<Content> cq = cb.createQuery(Content.class);
 	     Root<Content> root = cq.from(Content.class);
-	     cq.where(cb.equal(root.get("cdm_cm_id"), id),cb.equal(root.get("cdm_ct_id"), "1008"),cb.like(root.get("cdm_content_path"), "%xlsx"));
+	     cq.where(cb.equal(root.get("cdm_cm_id"), id),cb.equal(root.get("cdm_cp"), cp),cb.like(root.get("cdm_content_path"), "%xlsx"));
 	     cq.select(root);
 	     Query<Content> query = session.createQuery(cq);
 	     return query.getResultList();
