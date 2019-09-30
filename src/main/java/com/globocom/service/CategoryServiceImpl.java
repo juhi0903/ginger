@@ -63,8 +63,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Content> getContentList(int contentType, int categoryId) {
-		return categorydao.getContentList(contentType,categoryId);
+	public List<Content> getContentList(int contentType, int categoryId,int portalId,int operatorId) {
+		return categorydao.getContentList(contentType,categoryId,portalId,operatorId);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Content> getContent(int contentType, int categoryId, String status) {
+	public List<Content> getContent(int contentType, String categoryId, String status) {
 		return categorydao.getContent(contentType, categoryId, status);
 	}
 
@@ -100,6 +100,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<ContentProvider> getContentProvider() {
 		return categorydao.getContentProvider();
+	}
+
+	@Override
+	public int removeContentMapping(int id) {
+		return categorydao.removeContentMapping(id);
 	}
 
 

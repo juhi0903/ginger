@@ -17,7 +17,7 @@ public class Content {
 	
 	private int cdm_ct_id;
 	
-	private int cdm_cm_id;
+	private String cdm_cm_id;
 	
 	private String cdm_title;
 
@@ -87,11 +87,11 @@ public class Content {
 		this.cdm_ct_id = cdm_ct_id;
 	}
 
-	public int getCdm_cm_id() {
+	public String getCdm_cm_id() {
 		return cdm_cm_id;
 	}
 
-	public void setCdm_cm_id(int cdm_cm_id) {
+	public void setCdm_cm_id(String cdm_cm_id) {
 		this.cdm_cm_id = cdm_cm_id;
 	}
 

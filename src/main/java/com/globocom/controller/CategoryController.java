@@ -111,9 +111,10 @@ public class CategoryController {
 	     return ResponseEntity.ok().body(operator);
 	  }
 	
-	@GetMapping("/content/{contentType}/{categoryId}")
-	public ResponseEntity<List<Content>> getContentList(@PathVariable("contentType") int contentType,@PathVariable("categoryId") int categoryId) {
-		List<Content> content = categoryservice.getContentList(contentType,categoryId);
+	@GetMapping("/content/{contentType}/{categoryId}/{portalId}/{operatorId}")
+	public ResponseEntity<List<Content>> getContentList(@PathVariable("contentType") int contentType,@PathVariable("categoryId") int categoryId,
+			@PathVariable("portalId") int portalId,@PathVariable("operatorId") int operatorId) {
+		List<Content> content = categoryservice.getContentList(contentType,categoryId,portalId,operatorId);
 	     return ResponseEntity.ok().body(content);
 	  }
 	
@@ -124,11 +125,10 @@ public class CategoryController {
 	     return ResponseEntity.ok().body(contentlist);
 	  }
 	
-	@GetMapping("/contentmappingstatus/{id}/{status}")
-	public ResponseEntity<?> changeContentStatus(@PathVariable("id") int id, @PathVariable("status") String status) {
-		System.out.println(id);
-		int result = categoryservice.changeContentStatus(id,status);
-	     return ResponseEntity.ok().body(result +" Status Changed");
+	@GetMapping("/removecontentmapping/{id}")
+	public ResponseEntity<?> changeContentStatus(@PathVariable("id") int id) {
+		int result = categoryservice.removeContentMapping(id);
+	     return ResponseEntity.ok().body(result +" Mapping Removed");
 	  }
 	
 	@PostMapping("/content")
@@ -158,6 +158,12 @@ public class CategoryController {
 	    return ResponseEntity.ok().body("Content Rejected");
 	  }
 	
+	@GetMapping("/content/delete/{id}")
+	   public ResponseEntity<?> deleteContent(@PathVariable("id") int id) {
+		int row  = categoryservice.approveOrRejectContent(id, "DELETED");
+	    return ResponseEntity.ok().body("Content Deleted");
+	  }
+	
 	@PostMapping("/contentprovider")
 	   public ResponseEntity<?> saveContentProvider(@RequestBody ContentProvider contentprovider) {
 			
@@ -171,10 +177,10 @@ public class CategoryController {
 	  }
 	
 	
-	@GetMapping("/htmlgames/{id}/{cp}")
-	public ResponseEntity<?> getHtmlGamesExcel(@PathVariable("id") int id,@PathVariable("cp") int cp) {
+	@GetMapping("/htmlgames/{content}/{cp}")
+	public ResponseEntity<?> getHtmlGamesExcel(@PathVariable("content") int content,@PathVariable("cp") int cp) {
 		
-		 List<Content> contentList = categoryservice.getHtmlGamesExcel(id,cp);
+		 List<Content> contentList = categoryservice.getHtmlGamesExcel(content,cp);
 		
 		 return ResponseEntity.ok().body(contentList);	  
 	}

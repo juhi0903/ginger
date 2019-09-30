@@ -5,6 +5,8 @@ public class ContentConstants {
 	public static final String PREVIEW_FILE_EXTENSION_150X150 = "_150x150.gif";
 
 	public static final String PREVIEW_FILE_EXTENSION_100X100 = "_100x100.gif";
+	
+	public static final String PREVIEW_FILE_EXTENSION_400X400 = "_400x400.gif";
 
 	public static final String PREVIEW_PNG_FILE_EXTENSION_150X150 = "_150x150.png";
 

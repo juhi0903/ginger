@@ -110,7 +110,7 @@ public class UploadController {
 										content.setCdm_addedon(formatter.format(parsedDate));
 										content.setCdm_updatedon(formatter.format(parsedDate));
 										content.setCdm_licensed_till(formatter.format(parsedDate));
-										content.setCdm_cm_id(Integer.parseInt(categoryId));
+										content.setCdm_cm_id(categoryId);
 										content.setCdm_cp(cp);
 										contentUploadService.saveContent(content);
 										System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
@@ -127,7 +127,7 @@ public class UploadController {
 											content.setCdm_addedon(formatter.format(parsedDate));
 											content.setCdm_updatedon(formatter.format(parsedDate));
 											content.setCdm_licensed_till(formatter.format(parsedDate));
-											content.setCdm_cm_id(Integer.parseInt(categoryId));
+											content.setCdm_cm_id(categoryId);
 											content.setCdm_cp(cp);
 
 											/*content = addContentList(contentTypeId, contentProviderId, directoryPath + file.getName() + File.separator);
@@ -157,21 +157,21 @@ public class UploadController {
 												try {
 													contentfileName =  file.getName().substring(0, file.getName().lastIndexOf("."));
 													Content content = new Content();
-													content.setCdm_cm_id(Integer.parseInt(categoryId));
+													content.setCdm_cm_id("0001");
 													content.setCdm_ct_id(Integer.parseInt(contentType));
 													content.setCdm_content_path(directoryPath + file.getName());
 													content.setCdm_title(contentfileName);
 													content.setCdm_addedon(formatter.format(parsedDate));
 													content.setCdm_updatedon(formatter.format(parsedDate));
 													content.setCdm_licensed_till(formatter.format(parsedDate));
-													content.setCdm_cm_id(Integer.parseInt(categoryId));
+//													content.setCdm_cm_id(Integer.parseInt(categoryId));
 													content.setCdm_cp(cp);
 													contentUploadService.saveContent(content);
 												} catch (Exception e) {
 													// TODO: handle exception
 												}
 												
-												readExcel(file,directoryPath,categoryId);
+												readExcel(file,directoryPath,categoryId,cp);
 											}
 										}
 									}
@@ -183,14 +183,14 @@ public class UploadController {
 											
 										    contentfileName =  file.getName().substring(0, file.getName().lastIndexOf("."));
 											Content content = new Content();
-											content.setCdm_cm_id(Integer.parseInt(categoryId));
+											content.setCdm_cm_id(categoryId);
 											content.setCdm_ct_id(Integer.parseInt(contentType));
 											content.setCdm_content_path(directoryPath + file.getName());
 											content.setCdm_title(contentfileName);
 											content.setCdm_addedon(formatter.format(parsedDate));
 											content.setCdm_updatedon(formatter.format(parsedDate));
 											content.setCdm_licensed_till(formatter.format(parsedDate));
-											content.setCdm_cm_id(Integer.parseInt(categoryId));
+											content.setCdm_cm_id(categoryId);
 											content.setCdm_cp(cp);
 											contentUploadService.saveContent(content);
 											System.out.println("BULK FILES UPLOADED FOUND SUCSESSFULLY :file.getAbsolutePath() :" + file.getAbsolutePath());
@@ -351,7 +351,7 @@ public class UploadController {
 
 	}
 	
-	public void readExcel(File filepath,String directoryPath,String categoryId) throws IOException{
+	public void readExcel(File filepath,String directoryPath,String categoryId , String cp) throws IOException{
 
 		//FileInputStream file = new FileInputStream(new File(filepath)); 
 		FileInputStream file = new FileInputStream(filepath); 
@@ -381,6 +381,10 @@ public class UploadController {
 				if( row.getCell(3)==null) { previewPath = "null";   }
 	               else  previewPath   = row.getCell(3).toString();
 				
+				String category;
+				if(row.getCell(4) == null) { category = "136"; }
+					else category = row.getCell(4).toString().trim();
+				
 //				content.setCdm_content_path(directoryPath + files.get(0).getName());
 				content.setCdm_title(title);
 
@@ -391,7 +395,8 @@ public class UploadController {
 				content.setCdm_addedon(formatter.format(parsedDate));
 				content.setCdm_updatedon(formatter.format(parsedDate));
 				content.setCdm_licensed_till(formatter.format(parsedDate));
-				content.setCdm_cm_id(Integer.parseInt(categoryId));
+				content.setCdm_cm_id(category);
+				content.setCdm_cp(cp);
 				contentUploadService.saveContent(content);
 				
 		System.out.println("title:"+title+" name:"+link+" address:"+description+" previewPath:"+previewPath);

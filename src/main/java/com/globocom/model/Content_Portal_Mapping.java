@@ -29,6 +29,8 @@ public class Content_Portal_Mapping {
 	
 	private int content_id ;
 	
+	private String cpm_biller_name;
+	
 	@Transient
 	private int[] content_array ;
 	
@@ -58,6 +60,9 @@ public class Content_Portal_Mapping {
 	private String cpm_addedon ;
 	
 	private String cpm_updatedon;
+	
+	@Transient
+	private String cpname;
 
 	public int getCmp_id() {
 		return cmp_id;
@@ -205,18 +210,39 @@ public class Content_Portal_Mapping {
 	public void setOperator_name(String operator_name) {
 		this.operator_name = operator_name;
 	}
+	
+	public String getCpname() {
+		return cpname;
+	}
+
+	public void setCpname(String cpname) {
+		this.cpname = cpname;
+	}
+	
+	public String getCpm_biller_name() {
+		return cpm_biller_name;
+	}
+
+	public void setCpm_biller_name(String cpm_biller_name) {
+		this.cpm_biller_name = cpm_biller_name;
+	}
 
 	@Override
 	public String toString() {
 		return "Content_Portal_Mapping [cmp_id=" + cmp_id + ", portal_id=" + portal_id + ", country_id=" + country_id
 				+ ", operator_id=" + operator_id + ", content_type_id=" + content_type_id + ", category_id="
-				+ category_id + ", content_id=" + content_id + ", content_array=" + Arrays.toString(content_array)
-				+ ", ct_name=" + ct_name + ", pm_name=" + pm_name + ", cm_name=" + cm_name + ", cdm_title=" + cdm_title
-				+ ", cdm_content_path=" + cdm_content_path + ", country_name=" + country_name + ", operator_name="
-				+ operator_name + ", cpm_status=" + cpm_status + ", cpm_addedon=" + cpm_addedon + ", cpm_updatedon="
-				+ cpm_updatedon + "]";
+				+ category_id + ", content_id=" + content_id + ", cpm_biller_name=" + cpm_biller_name
+				+ ", content_array=" + Arrays.toString(content_array) + ", ct_name=" + ct_name + ", pm_name=" + pm_name
+				+ ", cm_name=" + cm_name + ", cdm_title=" + cdm_title + ", cdm_content_path=" + cdm_content_path
+				+ ", country_name=" + country_name + ", operator_name=" + operator_name + ", cpm_status=" + cpm_status
+				+ ", cpm_addedon=" + cpm_addedon + ", cpm_updatedon=" + cpm_updatedon + ", cpname=" + cpname + "]";
 	}
 
+	
+	
+
+
+	
 	
 
 

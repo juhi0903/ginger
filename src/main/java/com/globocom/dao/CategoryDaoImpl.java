@@ -143,18 +143,47 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getContentList(int contentType,int categoryId){
+	public List<Content> getContentList(int contentType,int categoryId,int portalId, int operatorId){
+		List<Content> contentList = new ArrayList<Content>();
+		List<Object> data = sessionFactory.getCurrentSession().
+				createNativeQuery(" SELECT "
+						+ "(SELECT 'true' from content_portal_mapping "
+						+ "WHERE portal_id = ?1 AND  operator_id =?2 AND cpm_status ='1' "
+						+ "AND category_id = cdm_cm_id AND content_type_id = cdm_ct_id AND content_id=cdm_id LIMIT 1  ) selected, "
+						+ "(Select cpname from content_provider where id=cdm_cp limit 1) cpName, "
+						+ "cdm_id  , cdm_ct_id , cdm_cm_id , cdm_cp , cdm_title ,cdm_status,date(cdm_addedon), cdm_content_path , cdm_url "
+						+ "FROM content_data_master "
+						+ "WHERE cdm_ct_id=?3 AND cdm_cm_id=?4 AND cdm_status='APPROVED'").
+						setParameter(1, portalId).setParameter(2,operatorId).setParameter(3, contentType).setParameter(4, categoryId).list();
+				
 		
-		Session session = sessionFactory.getCurrentSession();
-	     CriteriaBuilder cb = session.getCriteriaBuilder();
-	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
-	     Root<Content> root = cq.from(Content.class);
-	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId));
-	     cq.select(root);
-	     Query<Content> query = session.createQuery(cq);
-	     System.out.println(query.getResultList());
-	     return query.getResultList();
+		Iterator itr = data.iterator();
+		while(itr.hasNext()){
+			Object[] obj = (Object[]) itr.next();
+			Content content = new Content();
+			content.setCdm_live(String.valueOf(obj[0]));
+			content.setCdm_cp(String.valueOf(obj[1]));
+			content.setCdm_id(Integer.parseInt(String.valueOf(obj[2])));
+			content.setCdm_title(String.valueOf(obj[6]));
+			content.setCdm_status(String.valueOf(obj[7]));
+			content.setCdm_addedon(String.valueOf(obj[8]));
+			content.setCdm_content_path(String.valueOf(obj[9]));
+			content.setCdm_url(String.valueOf(obj[10]));
+			contentList.add(content);
+			
+		}
+
+				
+//	     CriteriaBuilder cb = session.getCriteriaBuilder();
+//	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
+//	     Root<Content> root = cq.from(Content.class);
+//	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId));
+//	     cq.select(root);
+//	     Query<Content> query = session.createQuery(cq);
+//	     System.out.println(query.getResultList());
+        return contentList;
 		
 		
 	}
@@ -166,7 +195,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		List<Object> user = sessionFactory.getCurrentSession().
 						createNativeQuery("select a.cmp_id as cmp_id, a.cpm_status as cpm_status,a.cpm_addedon as cpm_addedon,b.ct_name as ct_name, "
 						+ "c.name as country_name,d.name as operator_name,e.pm_name as pm_name,f.cm_name as cm_name,g.cdm_title as cdm_title, "
-						+ "g.cdm_content_path as cdm_content_path \n" + 
+						+ "g.cdm_content_path as cdm_content_path, cp.cpname as cpname \n" + 
 						"from \n" + 
 						"	content_portal_mapping a,\n" + 
 						"	content_type b,\n" + 
@@ -174,17 +203,19 @@ public class CategoryDaoImpl implements CategoryDao {
 						"	operator d,\n" + 
 						"	portal_master e,\n" + 
 						"	category_mastr f , \n" + 
-						"	content_data_master g \n" + 
+						"	content_data_master g,\n" + 
+						"   content_provider cp \n "+
 						"where \n" + 
 						"	a.portal_id = ?1 and\n" + 
 						"	a.operator_id = ?2 and \n" + 
-						"	a.category_id = ?3 and \n" + 
-						"	a.content_type_id = b.ct_id and \n" + 
+						"	a.content_type_id = ?3 and \n" + 
 						"	a.country_id =  c.id and \n" + 
 						"	a.operator_id =d.id AND\n" + 
 						"	a.portal_id = e.pm_id AND\n" + 
 						"	a.category_id = f.cm_id AND\n" + 
-						"	a.content_id = g.cdm_id ").setParameter(1,portalid).setParameter(2, operatorid).setParameter(3, categoryId).list();
+						"	a.content_id = g.cdm_id  and \n"+ 
+						" 	g.cdm_cp = cp.id AND \n"+
+						"   a.content_type_id = b.ct_id and a.cpm_status='1' order by a.cpm_addedon desc").setParameter(1,portalid).setParameter(2, operatorid).setParameter(3, categoryId).list();
 				
 		Iterator itr = user.iterator();
 		while(itr.hasNext()){
@@ -204,6 +235,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			tempCpMapping.setCm_name(String.valueOf(obj[7]));
 			tempCpMapping.setCdm_title(String.valueOf(obj[8]));
 			tempCpMapping.setCdm_content_path(String.valueOf(obj[9]));
+			tempCpMapping.setCpname(String.valueOf(obj[10]));
 			contentMapping.add(tempCpMapping);
 		  
 		}
@@ -236,12 +268,12 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Content> getContent(int contentType, int categoryId, String status) {
+	public List<Content> getContent(int contentType, String categoryId, String status) {
 		List<Content> contentList = new ArrayList<>();
 		
 		List<Object> data = sessionFactory.getCurrentSession().
-				createNativeQuery("select cdm_id,cdm_ct_id,cdm_cm_id,cdm_title,cpname,date(addtime),status,cdm_content_path,cdm_url  from content_data_master cd ,content_provider cp"
-						+ " where cd.cdm_cp = cp.id and cd.cdm_cm_id=?1 and cd.cdm_ct_id=?2 and cd.cdm_status=?3 and cdm_content_path NOT LIKE '%xlsx';")
+				createNativeQuery("select cdm_id,cdm_ct_id,cdm_cm_id,cdm_title,cpname,date(cdm_addedon),status,cdm_content_path,cdm_url  from content_data_master cd ,content_provider cp"
+						+ " where cd.cdm_cp = cp.id and cd.cdm_cm_id=?1 and cd.cdm_ct_id=?2 and cd.cdm_status=?3 and cdm_content_path NOT LIKE '%xlsx' order by cdm_addedon desc;")
 						.setParameter(1,categoryId).setParameter(2, contentType).setParameter(3, status).list();
 		
 		Iterator itr = data.iterator();
@@ -251,7 +283,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			Content tempdata = new Content();
 			tempdata.setCdm_id(Integer.parseInt(String.valueOf(obj[0])));
 			tempdata.setCdm_ct_id(Integer.parseInt(String.valueOf(obj[1])));
-			tempdata.setCdm_cm_id(Integer.parseInt(String.valueOf(obj[2])));
+			tempdata.setCdm_cm_id(String.valueOf(obj[2]));
 			tempdata.setCdm_title(String.valueOf(obj[3]));
 			tempdata.setCdm_cp(String.valueOf(obj[4]));
 			tempdata.setCdm_addedon(String.valueOf(obj[5]));
@@ -260,15 +292,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			tempdata.setCdm_url(String.valueOf(obj[8]));
 			contentList.add(tempdata);
 		}
-		
-//		Session session = sessionFactory.getCurrentSession();
-//		CriteriaBuilder cb = session.getCriteriaBuilder();
-//	     CriteriaQuery<Content> cq = cb.createQuery(Content.class);
-//	     Root<Content> root = cq.from(Content.class);
-//	     cq.where(cb.equal(root.get("cdm_ct_id"), contentType),cb.equal(root.get("cdm_cm_id"), categoryId) , cb.equal(root.get("cdm_status"),status),cb.notLike(root.get("cdm_content_path"), "%xlsx"));
-//	     cq.select(root);
-//	     Query<Content> query = session.createQuery(cq);
-//	     System.out.println(query.getResultList());
+
 	     return contentList;
 	}
 
@@ -304,7 +328,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	    CriteriaBuilder cb = session.getCriteriaBuilder();
 	    CriteriaQuery<Content> cq = cb.createQuery(Content.class);
 	     Root<Content> root = cq.from(Content.class);
-	     cq.where(cb.equal(root.get("cdm_cm_id"), id),cb.equal(root.get("cdm_cp"), cp),cb.like(root.get("cdm_content_path"), "%xlsx"));
+	     cq.where(cb.equal(root.get("cdm_cm_id"), 1),cb.equal(root.get("cdm_ct_id"), id),cb.equal(root.get("cdm_cp"), cp),cb.like(root.get("cdm_content_path"), "%xlsx"));
 	     cq.select(root);
 	     Query<Content> query = session.createQuery(cq);
 	     return query.getResultList();
@@ -320,6 +344,15 @@ public class CategoryDaoImpl implements CategoryDao {
 	     Query<ContentProvider> query = session.createQuery(cq);
 	     List<ContentProvider> result = query.getResultList();
 	     return result;
+	}
+
+	@Override
+	public int removeContentMapping(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Content_Portal_Mapping cpMapping = new Content_Portal_Mapping();
+		cpMapping.setCmp_id(id);
+		session.delete(cpMapping);
+		return 1;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.globocom.dao.PortalDao;
+import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Portal;
 
 @Service
@@ -35,6 +36,11 @@ public class PortalServiceImpl implements PortalService {
 	@Override
 	public int update(Portal portal) {
 		return portaldao.update(portal);
+	}
+
+	@Override
+	public List<Content_Portal_Mapping> getPortalMappingList() {
+		return portaldao.getPortalMappingList();
 	}
 
 }

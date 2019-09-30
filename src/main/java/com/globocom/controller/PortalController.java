@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.globocom.model.Content_Portal_Mapping;
 import com.globocom.model.Portal;
 import com.globocom.service.PortalService;
 
@@ -65,5 +66,12 @@ public class PortalController {
 		int id = portalservice.update(portal);
 		return ResponseEntity.ok().body("New Portal has been Registered with ID:" + id);
   }
+	
+	@GetMapping("/portalmapping")
+	public ResponseEntity<List<Content_Portal_Mapping>> getPortalMappingList(){
+		
+		List<Content_Portal_Mapping> mappingData = portalservice.getPortalMappingList();
+		return ResponseEntity.ok().body(mappingData);
+	}
 	
 }

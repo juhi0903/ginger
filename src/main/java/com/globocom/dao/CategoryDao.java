@@ -28,13 +28,13 @@ public interface CategoryDao {
 	
 	int saveContentPortalMapping(Content_Portal_Mapping portalMapping);
 	
-	List<Content> getContentList(int contentType,int categoryId);
+	List<Content> getContentList(int contentType,int categoryId,int portalId,int operatorId);
 	
 	List<Content_Portal_Mapping> getContentMappingList(int portalid,int categoryId,int operatorid);
 	
 	int changeContentStatus(int id, String status);
 	
-	List<Content> getContent (int contentType, int categoryId , String status);
+	List<Content> getContent (int contentType, String categoryId , String status);
 	
 	int approveOrRejectContent(int id , String status);
 	
@@ -43,6 +43,8 @@ public interface CategoryDao {
 	List<Content> getHtmlGamesExcel(int id , int cp);
 	
 	List<ContentProvider> getContentProvider();
+
+	int removeContentMapping(int id);
 
 
 

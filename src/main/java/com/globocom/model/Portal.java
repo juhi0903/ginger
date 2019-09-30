@@ -51,6 +51,8 @@ public class Portal {
 	private String pm_addedon;
 
 	private String pm_updatedon;
+	
+	private String pm_remarks;
 
 	public int getPm_id() {
 		return pm_id;
@@ -215,6 +217,17 @@ public class Portal {
 	public void setPm_updatedon(String pm_updatedon) {
 		this.pm_updatedon = pm_updatedon;
 	}
+	public String getPm_remarks() {
+		return pm_remarks;
+	}
+
+	public void setPm_remarks(String pm_remarks) {
+		this.pm_remarks = pm_remarks;
+	}
+
+	public void setPm_id(Integer pm_id) {
+		this.pm_id = pm_id;
+	}
 
 	@Override
 	public String toString() {
@@ -225,8 +238,11 @@ public class Portal {
 				+ ", pm_footer_arabic=" + pm_footer_arabic + ", pm_footer_russian=" + pm_footer_russian
 				+ ", pm_footer_french=" + pm_footer_french + ", pm_footer_italic=" + pm_footer_italic
 				+ ", pm_footer_greek=" + pm_footer_greek + ", pm_footer_thai=" + pm_footer_thai + ", pm_status="
-				+ pm_status + ", pm_addedon=" + pm_addedon + ", pm_updatedon=" + pm_updatedon + "]";
+				+ pm_status + ", pm_addedon=" + pm_addedon + ", pm_updatedon=" + pm_updatedon + ", pm_remarks="
+				+ pm_remarks + "]";
 	}
+
+	
 
 	
 
